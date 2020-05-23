@@ -57,7 +57,8 @@
     "ざ"  "じ"  "ず"  "ぜ"  "ぞ"   "じゃ"  "じゅ"  "じょ"
     "だ"  "ぢ"  "づ"  "で"  "ど"   "ぢゃ"  "ぢゅ"  "ぢょ"
     "ば"  "び"  "ぶ"  "べ"  "ぼ"   "びゃ"  "びゅ"  "びょ"
-    "ぱ"  "ぴ"  "ぷ"  "ぺ"  "ぽ"   "ぴゃ"  "ぴゅ"  "ぴょ"))
+    "ぱ"  "ぴ"  "ぷ"  "ぺ"  "ぽ"   "ぴゃ"  "ぴゅ"  "ぴょ")
+  "Hiragana table extracted from https://en.wikipedia.org/wiki/Hiragana.")
 
 
 (defvar kana-hiragana-romaji-table
@@ -77,7 +78,8 @@
     "za"  "ji"  "zu"  "ze"  "zo"  "ja"   "ju"   "jo"
     "da"  "ji"  "zu"  "de"  "do"  "ja"   "ju"   "jo"
     "ba"  "bi"  "bu"  "be"  "bo"  "bya"  "byu"   "byo"
-    "pa"  "pi"  "pu"  "pe"  "po"  "pya"  "pyu"   "pyo"))
+    "pa"  "pi"  "pu"  "pe"  "po"  "pya"  "pyu"   "pyo")
+  "Hiragana romaji table extracted from https://en.wikipedia.org/wiki/Hiragana.")
 
 
 (defvar kana-katakana-table
@@ -97,7 +99,8 @@
     "ザ"  "ジ"   "ズ"   "ゼ"  "ゾ"  "ジャ"  "ジュ"  "ジョ"
     "ダ"  "ヂ"   "ヅ"   "デ"  "ド"  "ヂャ"  "ヂュ"  "ヂョ"
     "バ"  "ビ"   "ブ"   "ベ"  "ボ"  "ビャ"  "ビュ"  "ビョ"
-    "パ"  "ピ"   "プ"   "ペ"  "ポ"  "ピャ"  "ピュ"  "ピョ"))
+    "パ"  "ピ"   "プ"   "ペ"  "ポ"  "ピャ"  "ピュ"  "ピョ")
+  "Katakana table extracted from https://en.wikipedia.org/wiki/Katakana.")
 
 (defvar kana-katakana-romaji-table
   '(
@@ -116,7 +119,8 @@
     "za"  "ji"  "zu"  "ze"  "zo"  "ja "   "ju "   "jo"
     "da"  "ji"  "zu"  "de"  "do"  "ja "   "ju "   "jo"
     "ba"  "bi"  "bu"  "be"  "bo"  "bya"   "byu"   "byo"
-    "pa"  "pi"  "pu"  "pe"  "po"  "pya"   "pyu"   "pyo"))
+    "pa"  "pi"  "pu"  "pe"  "po"  "pya"   "pyu"   "pyo")
+  "Katakana romaji table extracted from https://en.wikipedia.org/wiki/Katakana.")
 
 (defvar kana-header-function #'kana-header)
 (defvar kana-toggle-kana t)
