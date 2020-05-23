@@ -19,6 +19,7 @@
   - [[#toggle-between-loop-mode-or-normal-mode][Toggle between loop mode or normal mode]]
   - [[#increase-or-decrease-the-repeat-timer-in-loop-mode][Increase or decrease the repeat timer in loop mode]]
   - [[#next-or-previous-kana][Next or Previous kana]]
+  - [[#mouse-click-on-the-kana][Mouse click on the kana]]
 
 * Description
 Learn Japanese kana (仮名，五十音) in Emacs.
@@ -119,3 +120,6 @@ M-x kana-loop-dec
 M-x kana-next
 M-x kana-previous
 #+END_SRC
+
+** Mouse click on the kana
+Jump to the corresponding Wikipedia page.
