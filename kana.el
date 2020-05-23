@@ -279,9 +279,11 @@ Argument EVENT mouse event."
   (interactive)
   (if (setq kana-loop-toggle (if kana-loop-toggle nil t))
       (progn
-        (kana)
+        (kana kana-number)
         (kana-loop-start))
-    (kana-loop-stop)))
+    (progn
+      (kana kana-number)
+      (kana-loop-stop))))
 
 (defun kana-loop-start ()
   (when (eq major-mode 'kana-mode)
