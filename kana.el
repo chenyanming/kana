@@ -382,7 +382,7 @@ Argument EVENT mouse event."
                 (get-text-property (point) 'question))))
     (if (eq system-type 'darwin)
         (call-process-shell-command
-         (format "say -v Kyoko %s" question) nil 0)
+         (format "say -v Kyoko %s -r 100" question) nil 0)
       (let ((player (or (executable-find "mpv")
                         (executable-find "mplayer")
                         (executable-find "mpg123"))))
