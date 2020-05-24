@@ -447,7 +447,7 @@ Argument EVENT mouse event."
                                      (save-excursion
                                        (goto-char (text-property-not-all (point-min) (point-max) 'question nil))
                                        (get-text-property (point) 'question)))))
-                   (completing-read "Katakana: " new nil nil nil nil (car (cl-member question new :test #'cl-search))) ) " "))
+                   (completing-read "Katakana: " new nil nil nil nil (car (cl-member question new :test #'cl-search)))) " "))
            kana-katakana-table))))
 
 

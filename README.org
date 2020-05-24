@@ -66,6 +66,11 @@ git clone git@github.com:chenyanming/kana.git ~/.emacs.d/private/kana
 M-x kana
 #+END_SRC
 
+or
+#+BEGIN_SRC emacs-lisp
+M-x kana-jump
+#+END_SRC
+
 * Keybindings
 #+BEGIN_SRC emacs-lisp
 (defvar kana-mode-map
