@@ -77,6 +77,8 @@ M-x kana
     (define-key map "l" #'kana-loop-toggle)
     (define-key map "]" #'kana-loop-inc)
     (define-key map "[" #'kana-loop-dec)
+    (define-key map "a" #'kana-first)
+    (define-key map "q" #'kana-quit)
     map)
   "Keymap for `kana-mode'.")
 #+END_SRC
