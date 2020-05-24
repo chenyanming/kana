@@ -38,6 +38,7 @@
     (define-key map "]" #'kana-loop-inc)
     (define-key map "[" #'kana-loop-dec)
     (define-key map "a" #'kana-first)
+    (define-key map "j" #'kana-jump)
     (define-key map "q" #'kana-quit)
     map)
   "Keymap for `kana-mode'.")
@@ -161,7 +162,7 @@
 
 (defun kana-header ()
   "Header function for *kana* buffer."
-  (format "%s  %s  %s %s %s  %s  %s  %s  %s"
+  (format "%s  %s  %s %s %s  %s  %s  %s  %s  %s"
           (concat (propertize "t" 'face 'bold) (if kana-toggle-kana ":Hiragana 平仮名" ":Katakana 片仮名"))
           (concat (propertize "r" 'face 'bold) (if kana-in-sequence ":in sequence" ":random"))
           (concat (propertize "l" 'face 'bold) (if kana-loop-toggle ":loop" ":normal"))
@@ -170,6 +171,7 @@
           (concat (propertize "s" 'face 'bold) "ay")
           (concat (propertize "n" 'face 'bold) "ext")
           (concat (propertize "p" 'face 'bold) "revious")
+          (concat (propertize "j" 'face 'bold) "ump")
           (concat (propertize "q" 'face 'bold) "uit")))
 
 (defun kana-toggle-kana ()
@@ -394,5 +396,29 @@ Argument EVENT mouse event."
       (if (get-buffer "*kana*")
           (kill-buffer "*kana*"))))
 
+(defun kana-jump ()
+  "Jump to kana."
+  (interactive)
+  (kana (if kana-toggle-kana
+            (-elem-index
+             (car (split-string
+                   (completing-read
+                    "Hiragana: "
+                    (cl-mapcar
+                     '(lambda (a b) (concat a " " b))
+                     kana-hiragana-table
+                     kana-hiragana-romaji-table)) " ") )
+             kana-hiragana-table)
+          (-elem-index
+           (car (split-string
+                 (completing-read
+                  "Katakana: "
+                  (cl-mapcar
+                   '(lambda (a b) (concat a " " b))
+                   kana-katakana-table
+                   kana-katakana-romaji-table)) " ") )
+           kana-katakana-table))))
+
 (provide 'kana)
+
 ;;; kana.el ends here
