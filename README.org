@@ -19,6 +19,7 @@
   - [[#toggle-between-loop-mode-or-normal-mode][Toggle between loop mode or normal mode]]
   - [[#increase-or-decrease-the-repeat-timer-in-loop-mode][Increase or decrease the repeat timer in loop mode]]
   - [[#frst-next-or-previous-kana][Frst, Next or Previous kana]]
+  - [[#jump-to-the-kana-from-list][Jump to the kana from list]]
   - [[#quit-kana][Quit kana]]
   - [[#mouse-click-on-the-kana][Mouse click on the kana]]
 
@@ -78,6 +79,7 @@ M-x kana
     (define-key map "]" #'kana-loop-inc)
     (define-key map "[" #'kana-loop-dec)
     (define-key map "a" #'kana-first)
+    (define-key map "j" #'kana-jump)
     (define-key map "q" #'kana-quit)
     map)
   "Keymap for `kana-mode'.")
@@ -123,6 +125,11 @@ M-x kana-loop-dec
 M-x kana-first
 M-x kana-next
 M-x kana-previous
+#+END_SRC
+
+** Jump to the kana from list
+#+BEGIN_SRC emacs-lisp
+M-x kana-jump
 #+END_SRC
 
 ** Quit kana
