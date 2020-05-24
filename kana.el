@@ -428,18 +428,20 @@ Argument EVENT mouse event."
                    (completing-read
                     "Hiragana: "
                     (cl-mapcar
-                     '(lambda (a b) (concat a " " b))
+                     '(lambda (a b c) (concat a " " b " " c))
                      kana-hiragana-table
-                     kana-hiragana-romaji-table)) " ") )
+                     kana-hiragana-romaji-table
+                     kana-katakana-table)) " ") )
              kana-hiragana-table)
           (-elem-index
            (car (split-string
                  (completing-read
                   "Katakana: "
                   (cl-mapcar
-                   '(lambda (a b) (concat a " " b))
+                   '(lambda (a b c) (concat a " " b " " c))
                    kana-katakana-table
-                   kana-katakana-romaji-table)) " ") )
+                   kana-katakana-romaji-table
+                   kana-hiragana-table)) " ") )
            kana-katakana-table))))
 
 
