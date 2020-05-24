@@ -135,12 +135,15 @@
 (defvar kana-header-function #'kana-header)
 (defvar kana-toggle-kana t)
 (defvar kana-loop-toggle nil)
-(defvar kana-in-sequence nil)
 (defvar kana-number 0)
 (defvar kana-last-number 0)
 (defvar kana-loop-speed 1.0)
-(defvar kana-loop-speed 1.0)
 (defvar kana-details-show nil)
+
+(defcustom kana-in-sequence t
+  "Set nil random or t in sequence when enter *kana*."
+  :group 'kana
+  :type 'boolean)
 
 (defface kana-question-face '((t :inherit default :height 4.0))
   "Face used for question"
