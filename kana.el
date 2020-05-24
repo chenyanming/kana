@@ -439,13 +439,6 @@ Argument EVENT mouse event."
                    kana-katakana-romaji-table)) " ") )
            kana-katakana-table))))
 
-(defun kana-details-auto-update-toggle ()
-  "Toggle the varaible `kana-details-auto-update'."
-  (interactive)
-  (if (setq kana-details-auto-update (if kana-details-auto-update nil t))
-      (message "Enable auto update *kana-deatils*")
-    (message "Disable auto update *kana-deatils*")))
-
 
 (defun kana-details ()
   "Display buffer *kana-details*.
