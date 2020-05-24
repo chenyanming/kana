@@ -130,7 +130,7 @@
 (defvar kana-in-sequence nil)
 (defvar kana-number 0)
 (defvar kana-last-number 0)
-(defvar kana-loop-speed 1)
+(defvar kana-loop-speed 1.0)
 
 (defface kana-question-face '((t :inherit default :height 4.0))
   "Face used for question"
@@ -161,15 +161,16 @@
 
 (defun kana-header ()
   "Header function for *kana* buffer."
-  (if kana-toggle-kana
-      (format "%s %s %s %s" "Hiragana 平仮名"
-              (if kana-in-sequence "(in sequence)" "(random)")
-              (if kana-loop-toggle "(loop" "(normal)")
-              (if kana-loop-toggle (concat "+" (number-to-string kana-loop-speed) "s)") ""))
-    (format "%s %s %s %s" "Katakana 片仮名"
-            (if kana-in-sequence "(in sequence)" "(random)")
-            (if kana-loop-toggle "(loop" "(normal)")
-            (if kana-loop-toggle (concat "+" (number-to-string kana-loop-speed) "s)") ""))))
+  (format "%s  %s  %s %s %s  %s  %s  %s  %s"
+          (concat (propertize "t" 'face 'bold) (if kana-toggle-kana ":Hiragana 平仮名" ":Katakana 片仮名"))
+          (concat (propertize "r" 'face 'bold) (if kana-in-sequence ":in sequence" ":random"))
+          (concat (propertize "l" 'face 'bold) (if kana-loop-toggle ":loop" ":normal"))
+          (if kana-loop-toggle (concat "(+" (number-to-string kana-loop-speed) "s) ") "")
+          (concat (propertize "v" 'face 'bold) "alidate")
+          (concat (propertize "s" 'face 'bold) "ay")
+          (concat (propertize "n" 'face 'bold) "ext")
+          (concat (propertize "p" 'face 'bold) "revious")
+          (concat (propertize "q" 'face 'bold) "uit")))
 
 (defun kana-toggle-kana ()
   "Toggle hiragana or katakana."
