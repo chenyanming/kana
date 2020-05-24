@@ -144,7 +144,7 @@ M-x kana-details
 2. Show the help links (Wikipedia, Jisho, and Weblio) whose keybindings inherits from =shr-map=.
 3. =*kana-details*= will be automatically updated when =*kana*= updates.
 
-[[file:kana-details.gif]]
+[[file:img/kana-details.gif]]
 
 ** Quit kana
 #+BEGIN_SRC emacs-lisp
