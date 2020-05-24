@@ -20,6 +20,7 @@
   - [[#increase-or-decrease-the-repeat-timer-in-loop-mode][Increase or decrease the repeat timer in loop mode]]
   - [[#frst-next-or-previous-kana][Frst, Next or Previous kana]]
   - [[#jump-to-the-kana-from-list][Jump to the kana from list]]
+  - [[#show-kana-details][Show kana details]]
   - [[#quit-kana][Quit kana]]
   - [[#mouse-click-on-the-kana][Mouse click on the kana]]
 
@@ -81,6 +82,7 @@ M-x kana
     (define-key map "a" #'kana-first)
     (define-key map "j" #'kana-jump)
     (define-key map "q" #'kana-quit)
+    (define-key map "d" #'kana-details)
     map)
   "Keymap for `kana-mode'.")
 #+END_SRC
@@ -131,6 +133,18 @@ M-x kana-previous
 #+BEGIN_SRC emacs-lisp
 M-x kana-jump
 #+END_SRC
+
+** Show kana details
+#+BEGIN_SRC emacs-lisp
+M-x kana-details
+#+END_SRC
+
+1. Show stroke order using svg files provided by
+=kanji-mode= (if available). You can install =kanji-mode= via melpa.
+2. Show the help links (Wikipedia, Jisho, and Weblio) whose keybindings inherits from =shr-map=.
+3. =*kana-details*= will be automatically updated when =*kana*= updates.
+
+[[file:kana-details.gif]]
 
 ** Quit kana
 #+BEGIN_SRC emacs-lisp

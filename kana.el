@@ -28,6 +28,10 @@
 
 ;;; Code:
 
+(require 'shr)
+(ignore-errors
+  (require 'kanji-mode))
+
 (defvar kana-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map "v" #'kana-validate)
@@ -42,6 +46,7 @@
     (define-key map "a" #'kana-first)
     (define-key map "j" #'kana-jump)
     (define-key map "q" #'kana-quit)
+    (define-key map "d" #'kana-details)
     map)
   "Keymap for `kana-mode'.")
 
@@ -134,6 +139,8 @@
 (defvar kana-number 0)
 (defvar kana-last-number 0)
 (defvar kana-loop-speed 1.0)
+(defvar kana-loop-speed 1.0)
+(defvar kana-details-show nil)
 
 (defface kana-question-face '((t :inherit default :height 4.0))
   "Face used for question"
@@ -164,8 +171,8 @@
 
 (defun kana-header ()
   "Header function for *kana* buffer."
-  (format "%s  %s  %s %s %s  %s  %s  %s  %s  %s"
-          (concat (propertize "t" 'face 'bold) (if kana-toggle-kana ":Hiragana 平仮名" ":Katakana 片仮名"))
+  (format "%s  %s  %s %s %s  %s  %s  %s  %s  %s  %s"
+          (concat (propertize "t" 'face 'bold) (if kana-toggle-kana ":Hiragana" ":Katakana"))
           (concat (propertize "r" 'face 'bold) (if kana-in-sequence ":in sequence" ":random"))
           (concat (propertize "l" 'face 'bold) (if kana-loop-toggle ":loop" ":normal"))
           (if kana-loop-toggle (concat "(+" (number-to-string kana-loop-speed) "s) ") "")
@@ -174,6 +181,7 @@
           (concat (propertize "n" 'face 'bold) "ext")
           (concat (propertize "p" 'face 'bold) "revious")
           (concat (propertize "j" 'face 'bold) "ump")
+          (concat (propertize "d" 'face 'bold) "etails")
           (concat (propertize "q" 'face 'bold) "uit")))
 
 (defun kana-toggle-kana ()
@@ -237,7 +245,7 @@ Optional argument INDEX is the number of kana in the list."
                        kana-katakana-table))
          (number (or index (if kana-in-sequence
                                kana-number
-                               (random (1- (length temp-table))))))
+                             (random (1- (length temp-table))))))
          (question (nth number temp-table))
          beg end)
     (setq kana-number number)
@@ -247,9 +255,9 @@ Optional argument INDEX is the number of kana in the list."
       (insert indent)
       (setq beg (point))
       (insert (format "%s " (propertize question
-                                         'face 'kana-question-face
-                                         'mouse-face 'mode-line-highlight
-                                         'help-echo (format "https://en.wikipedia.org/wiki/%s" question))))
+                                        'face 'kana-question-face
+                                        'mouse-face 'mode-line-highlight
+                                        'help-echo (format "https://en.wikipedia.org/wiki/%s" question))))
       (setq end (point))
       (put-text-property beg end 'question question)
       (put-text-property beg end 'indent indent))
@@ -261,7 +269,12 @@ Optional argument INDEX is the number of kana in the list."
     (kana-say-question))
   (setq buffer-read-only t)
   (unless (eq major-mode 'kana-mode)
-    (kana-mode)))
+    (kana-mode))
+  (when kana-details-show
+    ;; Set to nil and function `kana-details' will set t back to make it auto
+    ;; update and auto show when *kana* updates.
+    (setq kana-details-show nil)
+    (kana-details)))
 
 (defun kana-mouse-1 (event)
   "Browser the url click on with eww.
@@ -372,7 +385,7 @@ Argument EVENT mouse event."
           (insert "\n")
           (insert indent)
           (insert (propertize actual-answer-other 'face 'kana-answer-face))
-          (insert "\n")) ))))
+          (insert "\n"))))))
 
 (defun kana-say-question ()
   "Read the question out."
@@ -397,9 +410,11 @@ Argument EVENT mouse event."
 (defun kana-quit ()
   "Quit kana."
   (interactive)
-  (if (eq major-mode 'kana-mode)
+  (when (eq major-mode 'kana-mode)
       (if (get-buffer "*kana*")
-          (kill-buffer "*kana*"))))
+          (kill-buffer "*kana*"))
+      (if (get-buffer "*kana-details*")
+          (kill-buffer "*kana-details*"))))
 
 (defun kana-jump ()
   "Jump to kana."
@@ -423,6 +438,61 @@ Argument EVENT mouse event."
                    kana-katakana-table
                    kana-katakana-romaji-table)) " ") )
            kana-katakana-table))))
+
+(defun kana-details-auto-update-toggle ()
+  "Toggle the varaible `kana-details-auto-update'."
+  (interactive)
+  (if (setq kana-details-auto-update (if kana-details-auto-update nil t))
+      (message "Enable auto update *kana-deatils*")
+    (message "Disable auto update *kana-deatils*")))
+
+
+(defun kana-details ()
+  "Display buffer *kana-details*.
+1. Show stroke order using svg files provided by variable
+`kanji-mode' (if available). From
+https://github.com/wsgac/kanji-mode.
+2. Show the help links keybindings inherits from `shr-map'."
+  (interactive)
+  (if (setq kana-details-show (if kana-details-show nil t))
+      (let* ((question-location (text-property-not-all (point-min) (point-max) 'question nil))
+             (char (char-after question-location))
+             (question (get-text-property question-location 'question))
+             (wiki (format "https://en.wikipedia.org/wiki/%s" question))
+             (jisho (format "https://jisho.org/search/%s" question))
+             (weblio (format "https://ejje.weblio.jp/content/%s" question))
+             (image (if (boundp '*kanji-svg-path*)
+                        (create-image (concat (expand-file-name (format "%05x" char) *kanji-svg-path*) ".svg"))))
+             beg)
+        (switch-to-buffer-other-window (get-buffer-create "*kana-details*"))
+        (with-current-buffer "*kana-details*"
+          (setq buffer-read-only nil)
+          (erase-buffer)
+          ;; stroke order
+          (when image
+            (insert-image image)
+            (insert "\n"))
+          ;; wiki
+          (setq beg (point))
+          (insert wiki)
+          (shr-urlify beg (shr-expand-url wiki))
+          (insert "\n")
+          ;; jisho
+          (setq beg (point))
+          (insert jisho)
+          (shr-urlify beg (shr-expand-url jisho))
+          (insert "\n")
+          ;; weblio
+          (setq beg (point))
+          (insert weblio)
+          (shr-urlify beg (shr-expand-url weblio))
+          (insert "\n")
+          (setq buffer-read-only t)
+          (goto-char (point-min)))
+        (select-window (get-buffer-window "*kana*")))
+    (progn
+      (when (select-window (get-buffer-window "*kana-details*"))
+        (delete-window)))))
 
 (provide 'kana)
 
