@@ -24,7 +24,9 @@
 
 ;;; Commentary:
 
-;; Learn Japanese Kana in emacs.
+;; Learn Japanese Kana in Emacs.
+
+;;; Code:
 
 (defvar kana-mode-map
   (let ((map (make-sparse-keymap)))
@@ -181,7 +183,7 @@
   (kana kana-number))
 
 (defun kana-toggle-random ()
-  "Toggle kana shows in random or in sequence."
+  "Toggle kana show in random or in sequence."
   (interactive)
   (setq kana-in-sequence (if kana-in-sequence nil t))
   (kana kana-number))
@@ -215,7 +217,8 @@
   (message "あ"))
 
 (defun kana (&optional index)
-  "Start to lean kana."
+  "Start to lean kana.
+Optional argument INDEX is the number of kana in the list."
   (interactive)
   (switch-to-buffer (get-buffer-create "*kana*"))
   (setq buffer-read-only nil)
@@ -298,12 +301,14 @@ Argument EVENT mouse event."
       (kana-loop-stop))))
 
 (defun kana-loop-start ()
+  "Start kana loop."
   (when (eq major-mode 'kana-mode)
     (run-with-timer 0 kana-loop-speed 'kana-validate)
     (kana kana-number)
     (message "Start kana loop")))
 
 (defun kana-loop-stop ()
+  "Stop kana loop."
   (cancel-function-timers 'kana-validate)
   (message "Stop kana loop"))
 
