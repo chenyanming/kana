@@ -37,6 +37,8 @@
     (define-key map "l" #'kana-loop-toggle)
     (define-key map "]" #'kana-loop-inc)
     (define-key map "[" #'kana-loop-dec)
+    (define-key map "a" #'kana-first)
+    (define-key map "q" #'kana-quit)
     map)
   "Keymap for `kana-mode'.")
 
@@ -130,6 +132,18 @@
 (defvar kana-last-number 0)
 (defvar kana-loop-speed 1)
 
+(defface kana-question-face '((t :inherit default :height 4.0))
+  "Face used for question"
+  :group 'kana-faces)
+
+(defface kana-romaji-face '((t :inherit font-lock-string-face :height 4.0))
+  "Face used for romaji"
+  :group 'kana-faces)
+
+(defface kana-answer-face '((t :inherit font-lock-keyword-face :height 4.0))
+  "Face used for answer"
+  :group 'kana-faces)
+
 (defun kana-mode ()
   "Major mode for kana.
 \\{kana-mode-map}"
@@ -139,7 +153,7 @@
   (setq major-mode 'kana-mode
         mode-name "kana-mode"
         truncate-lines t
-        ;; buffer-read-only t
+        buffer-read-only t
         header-line-format '(:eval (funcall kana-header-function)))
   (buffer-disable-undo)
   (add-hook 'kill-buffer-hook '(lambda () (when kana-loop-toggle (setq kana-loop-toggle nil) (kana-loop-stop))) nil :local)
@@ -191,26 +205,20 @@
        (kana kana-number))
     (kana)))
 
-(defface kana-question-face '((t :inherit default :height 4.0))
-  "Face used for question"
-  :group 'kana-faces)
-
-(defface kana-romaji-face '((t :inherit font-lock-string-face :height 4.0))
-  "Face used for romaji"
-  :group 'kana-faces)
-
-(defface kana-answer-face '((t :inherit font-lock-keyword-face :height 4.0))
-  "Face used for answer"
-  :group 'kana-faces)
+(defun kana-first ()
+  "Go to first kana - あ."
+  (interactive)
+  (kana 0)
+  (message "あ"))
 
 (defun kana (&optional index)
   "Start to lean kana."
   (interactive)
   (switch-to-buffer (get-buffer-create "*kana*"))
+  (setq buffer-read-only nil)
   (erase-buffer)
   (setq kana-last-number kana-number)
-  (let* ((buffer-read-only nil)
-         (w (window-width))
+  (let* ((w (window-width))
          (h (window-height))
          (hsep (cond ((> w 26) "   ")
                      ((> w 20) " ")
@@ -245,6 +253,7 @@
       (put-text-property beg end 'keymap map))
     (goto-char (point-min))             ; cursor is always in the (point-min)
     (kana-say-question))
+  (setq buffer-read-only t)
   (unless (eq major-mode 'kana-mode)
     (kana-mode)))
 
@@ -288,6 +297,7 @@ Argument EVENT mouse event."
 (defun kana-loop-start ()
   (when (eq major-mode 'kana-mode)
     (run-with-timer 0 kana-loop-speed 'kana-validate)
+    (kana kana-number)
     (message "Start kana loop")))
 
 (defun kana-loop-stop ()
@@ -297,7 +307,7 @@ Argument EVENT mouse event."
 (defun kana-loop-inc ()
   "Increse the repeat timer of kana loop."
   (interactive)
-  (setq kana-loop-speed (1+ kana-loop-speed))
+  (setq kana-loop-speed (+ kana-loop-speed 0.5))
   (message (number-to-string kana-loop-speed))
   (cancel-function-timers 'kana-validate)
   (kana-loop-start))
@@ -306,7 +316,7 @@ Argument EVENT mouse event."
   "Decrease the repeat timer of kana loop."
   (interactive)
   (if (> kana-loop-speed 1)
-      (setq kana-loop-speed (1- kana-loop-speed)))
+      (setq kana-loop-speed (- kana-loop-speed 0.5)))
   (message (number-to-string kana-loop-speed))
   (cancel-function-timers 'kana-validate)
   (kana-loop-start))
@@ -314,7 +324,8 @@ Argument EVENT mouse event."
 (defun kana-validate ()
   "Validate the kana."
   (interactive)
-  (let* ((temp-table (if kana-toggle-kana
+  (let* ((buffer-read-only nil)
+         (temp-table (if kana-toggle-kana
                          kana-hiragana-table
                        kana-katakana-table))
          (temp-table-other (if (not kana-toggle-kana)
@@ -374,6 +385,13 @@ Argument EVENT mouse event."
              player
              (format "http://dict.youdao.com/dictvoice?type=2&audio=%s" (url-hexify-string question)))
           (message "mpv, mplayer or mpg123 is needed to play word voice"))))))
+
+(defun kana-quit ()
+  "Quit kana."
+  (interactive)
+  (if (eq major-mode 'kana-mode)
+      (if (get-buffer "*kana*")
+          (kill-buffer "*kana*"))))
 
 (provide 'kana)
 ;;; kana.el ends here

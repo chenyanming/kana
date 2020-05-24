@@ -18,7 +18,8 @@
   - [[#toggle-between-in-random-or-in-sequence][Toggle between in random or in sequence]]
   - [[#toggle-between-loop-mode-or-normal-mode][Toggle between loop mode or normal mode]]
   - [[#increase-or-decrease-the-repeat-timer-in-loop-mode][Increase or decrease the repeat timer in loop mode]]
-  - [[#next-or-previous-kana][Next or Previous kana]]
+  - [[#frst-next-or-previous-kana][Frst, Next or Previous kana]]
+  - [[#quit-kana][Quit kana]]
   - [[#mouse-click-on-the-kana][Mouse click on the kana]]
 
 * Description
@@ -115,10 +116,16 @@ M-x kana-loop-inc
 M-x kana-loop-dec
 #+END_SRC
 
-** Next or Previous kana
+** Frst, Next or Previous kana
 #+BEGIN_SRC emacs-lisp
+M-x kana-first
 M-x kana-next
 M-x kana-previous
+#+END_SRC
+
+** Quit kana
+#+BEGIN_SRC emacs-lisp
+M-x kana-quit
 #+END_SRC
 
 ** Mouse click on the kana
