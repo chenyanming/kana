@@ -425,23 +425,29 @@ Argument EVENT mouse event."
   (kana (if kana-toggle-kana
             (-elem-index
              (car (split-string
-                   (completing-read
-                    "Hiragana: "
-                    (cl-mapcar
-                     '(lambda (a b c) (concat a " " b " " c))
-                     kana-hiragana-table
-                     kana-hiragana-romaji-table
-                     kana-katakana-table)) " ") )
+                   (let* ((new (cl-mapcar
+                               '(lambda (a b c) (concat a " " b " " c))
+                               kana-hiragana-table
+                               kana-hiragana-romaji-table
+                               kana-katakana-table))
+                         (question (if (eq major-mode 'kana-mode)
+                                       (save-excursion
+                                         (goto-char (text-property-not-all (point-min) (point-max) 'question nil))
+                                         (get-text-property (point) 'question)))))
+                     (completing-read "Hiragana: " new nil nil nil nil (car (cl-member question new :test #'cl-search)))) " "))
              kana-hiragana-table)
           (-elem-index
            (car (split-string
-                 (completing-read
-                  "Katakana: "
-                  (cl-mapcar
-                   '(lambda (a b c) (concat a " " b " " c))
-                   kana-katakana-table
-                   kana-katakana-romaji-table
-                   kana-hiragana-table)) " ") )
+                 (let ((new (cl-mapcar
+                             '(lambda (a b c) (concat a " " b " " c))
+                             kana-katakana-table
+                             kana-katakana-romaji-table
+                             kana-hiragana-table))
+                       (question (if (eq major-mode 'kana-mode)
+                                     (save-excursion
+                                       (goto-char (text-property-not-all (point-min) (point-max) 'question nil))
+                                       (get-text-property (point) 'question)))))
+                   (completing-read "Katakana: " new nil nil nil nil (car (cl-member question new :test #'cl-search))) ) " "))
            kana-katakana-table))))
 
 
