@@ -127,7 +127,7 @@ M-x kana-loop-inc
 M-x kana-loop-dec
 #+END_SRC
 
-** Frst, Next or Previous kana
+** First, Next or Previous kana
 #+BEGIN_SRC emacs-lisp
 M-x kana-first
 M-x kana-next
@@ -145,7 +145,7 @@ M-x kana-details
 #+END_SRC
 
 1. Show stroke order using svg files provided by
-=kanji-mode= (if available). You can install =kanji-mode= via melpa.
+   =kanji-mode= (if available). You can install =kanji-mode= via melpa.
 2. Show the help links (Wikipedia, Jisho, and Weblio) whose keybindings inherits from =shr-map=.
 3. =*kana-details*= will be automatically updated when =*kana*= updates.
 
