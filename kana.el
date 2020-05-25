@@ -7,7 +7,7 @@
 ;; Keywords: tools
 ;; Created: 23 May 2020
 ;; Version: 1.0.0
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "24.4") (kanji-mode "1.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
