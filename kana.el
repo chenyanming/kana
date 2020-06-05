@@ -149,11 +149,11 @@
   "Face used for question"
   :group 'kana-faces)
 
-(defface kana-romaji-face '((t :inherit font-lock-string-face :height 4.0))
+(defface kana-romaji-face '((t :inherit default :height 4.0 :foreground "#A3BE8C"))
   "Face used for romaji"
   :group 'kana-faces)
 
-(defface kana-answer-face '((t :inherit font-lock-keyword-face :height 4.0))
+(defface kana-answer-face '((t :inherit default :height 4.0 :foreground "#81A1C1"))
   "Face used for answer"
   :group 'kana-faces)
 
