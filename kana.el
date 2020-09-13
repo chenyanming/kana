@@ -145,6 +145,11 @@
   :group 'kana
   :type 'boolean)
 
+(defcustom kana-fontset "fontset-default"
+  "Fontset used."
+  :group 'kana
+  :type 'string)
+
 (defface kana-question-face '((t :inherit default :height 4.0))
   "Face used for question"
   :group 'kana-faces)
@@ -169,6 +174,9 @@
         buffer-read-only t
         header-line-format '(:eval (funcall kana-header-function)))
   (buffer-disable-undo)
+  (set-face-attribute 'kana-question-face nil :fontset kana-fontset)
+  (set-face-attribute 'kana-romoji-face nil :fontset kana-fontset)
+  (set-face-attribute 'kana-answer-face nil :fontset kana-fontset)
   (add-hook 'kill-buffer-hook '(lambda () (when kana-loop-toggle (setq kana-loop-toggle nil) (kana-loop-stop))) nil :local)
   (run-mode-hooks 'kana-mode-hook))
 
