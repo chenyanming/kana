@@ -236,7 +236,7 @@
   (message "あ"))
 
 (defun kana (&optional index)
-  "Start to lean kana.
+  "Start to learn kana.
 Optional argument INDEX is the number of kana in the list."
   (interactive)
   (switch-to-buffer (get-buffer-create "*kana*"))
