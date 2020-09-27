@@ -7,7 +7,7 @@
 ;; Keywords: tools
 ;; Created: 23 May 2020
 ;; Version: 1.0.0
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "24.4") (dash "2.17.0"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -31,6 +31,7 @@
 ;;; Code:
 
 (require 'shr)
+(require 'dash)
 (ignore-errors
   (require 'kanji-mode))
 
