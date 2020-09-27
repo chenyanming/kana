@@ -1,4 +1,4 @@
-;;; kana.el --- Review hiragana and katakana -*- lexical-binding: t; -*-
+;;; kana.el --- Learn Japanese hiragana and katakana -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 Damon Chan
 
