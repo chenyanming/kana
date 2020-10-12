@@ -22,7 +22,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -164,23 +164,19 @@
   "Face used for answer"
   :group 'kana-faces)
 
-(defun kana-mode ()
-  "Major mode for kana.
+(define-derived-mode kana-mode fundamental-mode "kana"
+  "Major mode for learning kana.
 \\{kana-mode-map}"
-  (interactive)
-  (kill-all-local-variables)
-  (use-local-map kana-mode-map)
-  (setq major-mode 'kana-mode
-        mode-name "kana-mode"
-        truncate-lines t
+  (setq truncate-lines t
         buffer-read-only t
         header-line-format '(:eval (funcall kana-header-function)))
+  (set (make-local-variable 'hl-line-face) 'kana-header-highlight-face)
+  (hl-line-mode)
   (buffer-disable-undo)
   (set-face-attribute 'kana-question-face nil :fontset kana-fontset)
-  (set-face-attribute 'kana-romoji-face nil :fontset kana-fontset)
+  (set-face-attribute 'kana-romaji-face nil :fontset kana-fontset)
   (set-face-attribute 'kana-answer-face nil :fontset kana-fontset)
-  (add-hook 'kill-buffer-hook '(lambda () (when kana-loop-toggle (setq kana-loop-toggle nil) (kana-loop-stop))) nil :local)
-  (run-mode-hooks 'kana-mode-hook))
+  (add-hook 'kill-buffer-hook (lambda () (when kana-loop-toggle (setq kana-loop-toggle nil) (kana-loop-stop))) nil :local))
 
 (defun kana-header ()
   "Header function for *kana* buffer."
@@ -329,13 +325,13 @@ Argument EVENT mouse event."
 (defun kana-loop-start ()
   "Start kana loop."
   (when (eq major-mode 'kana-mode)
-    (run-with-timer 0 kana-loop-speed 'kana-validate)
+    (run-with-timer 0 kana-loop-speed #'kana-validate)
     (kana kana-number)
     (message "Start kana loop")))
 
 (defun kana-loop-stop ()
   "Stop kana loop."
-  (cancel-function-timers 'kana-validate)
+  (cancel-function-timers #'kana-validate)
   (message "Stop kana loop"))
 
 (defun kana-loop-inc ()
@@ -343,7 +339,7 @@ Argument EVENT mouse event."
   (interactive)
   (setq kana-loop-speed (+ kana-loop-speed 0.5))
   (message (number-to-string kana-loop-speed))
-  (cancel-function-timers 'kana-validate)
+  (cancel-function-timers #'kana-validate)
   (kana-loop-start))
 
 (defun kana-loop-dec ()
@@ -352,7 +348,7 @@ Argument EVENT mouse event."
   (if (> kana-loop-speed 1)
       (setq kana-loop-speed (- kana-loop-speed 0.5)))
   (message (number-to-string kana-loop-speed))
-  (cancel-function-timers 'kana-validate)
+  (cancel-function-timers #'kana-validate)
   (kana-loop-start))
 
 (defun kana-validate ()
@@ -417,7 +413,7 @@ Argument EVENT mouse event."
              player
              nil
              player
-             (format "http://dict.youdao.com/dictvoice?type=2&audio=%s" (url-hexify-string question)))
+             (format "https://dict.youdao.com/dictvoice?type=2&audio=%s" (url-hexify-string question)))
           (message "mpv, mplayer or mpg123 is needed to play word voice"))))))
 
 (defun kana-quit ()
@@ -436,7 +432,7 @@ Argument EVENT mouse event."
             (-elem-index
              (car (split-string
                    (let* ((new (cl-mapcar
-                               '(lambda (a b c) (concat a " " b " " c))
+                               (lambda (a b c) (concat a " " b " " c))
                                kana-hiragana-table
                                kana-hiragana-romaji-table
                                kana-katakana-table))
@@ -449,7 +445,7 @@ Argument EVENT mouse event."
           (-elem-index
            (car (split-string
                  (let ((new (cl-mapcar
-                             '(lambda (a b c) (concat a " " b " " c))
+                             (lambda (a b c) (concat a " " b " " c))
                              kana-katakana-table
                              kana-katakana-romaji-table
                              kana-hiragana-table))
