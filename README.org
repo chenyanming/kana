@@ -6,7 +6,7 @@
 * Table of Contents :TOC_3:noexport:
 - [[#description][Description]]
   - [[#install-kana][Install kana]]
-    - [[#ues-package][ues-package]]
+    - [[#use-package][use-package]]
     - [[#doom-emacs][Doom Emacs]]
     - [[#spacemacs-or-other-emacs-distributions][Spacemacs or other emacs distributions]]
 - [[#quick-start][Quick Start]]
@@ -32,7 +32,7 @@ Learn Japanese kana (仮名，五十音) in Emacs.
 ** Install kana
 Choose one of the following installation methods based on your needs:
 
-*** ues-package
+*** use-package
 
 #+BEGIN_SRC emacs-lisp
 (use-package kana
