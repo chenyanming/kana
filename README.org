@@ -56,7 +56,7 @@ dotspacemacs-additional-packages '(kana)
 Restart Spacemacs.
 
 *** Doom Emacs
-Add the following line to =package=
+Add the following line to =package.el=
 #+BEGIN_SRC emacs-lisp
 (package! kana)
 #+END_SRC
