@@ -2,13 +2,15 @@
 #+DATE:    May 23, 2020
 #+SINCE:   <replace with next tagged release version>
 #+STARTUP: inlineimages nofold
+[[https://melpa.org/#/shrface][file:https://melpa.org/packages/kana-badge.svg]]
 
 * Table of Contents :TOC_3:noexport:
 - [[#description][Description]]
   - [[#install-kana][Install kana]]
-    - [[#use-package][use-package]]
+    - [[#melpa][melpa]]
+    - [[#ues-package][ues-package]]
+    - [[#spacemacs][Spacemacs]]
     - [[#doom-emacs][Doom Emacs]]
-    - [[#spacemacs-or-other-emacs-distributions][Spacemacs or other emacs distributions]]
 - [[#quick-start][Quick Start]]
 - [[#keybindings][Keybindings]]
 - [[#features][Features]]
@@ -18,7 +20,7 @@
   - [[#toggle-between-in-random-or-in-sequence][Toggle between in random or in sequence]]
   - [[#toggle-between-loop-mode-or-normal-mode][Toggle between loop mode or normal mode]]
   - [[#increase-or-decrease-the-repeat-timer-in-loop-mode][Increase or decrease the repeat timer in loop mode]]
-  - [[#frst-next-or-previous-kana][Frst, Next or Previous kana]]
+  - [[#first-next-or-previous-kana][First, Next or Previous kana]]
   - [[#jump-to-the-kana-from-list][Jump to the kana from list]]
   - [[#show-kana-details][Show kana details]]
   - [[#quit-kana][Quit kana]]
@@ -32,33 +34,34 @@ Learn Japanese kana (仮名，五十音) in Emacs.
 ** Install kana
 Choose one of the following installation methods based on your needs:
 
-*** use-package
+*** melpa
+It's available on [[https://melpa.org/][Melpa]] :
+#+BEGIN_SRC emacs-lisp
+M-x package-install kana
+#+END_SRC
 
+*** ues-package
 #+BEGIN_SRC emacs-lisp
 (use-package kana
   :quelpa
   (kana :repo "chenyanming/kana" :fetcher github))
 #+END_SRC
 
+*** Spacemacs
+Add ~kana~ into ~dotspacemacs-additional-packages~ in ~init.el~
+#+BEGIN_SRC emacs-lisp
+dotspacemacs-additional-packages '(kana)
+#+END_SRC
+
+Restart Spacemacs.
+
 *** Doom Emacs
 Add the following line to =package=
 #+BEGIN_SRC emacs-lisp
-(package! kana :recipe (:host github :repo "chenyanming/kana"))
+(package! kana)
 #+END_SRC
 
 Run =./.emacs.d/bin/doom sync=
-
-*** Spacemacs or other emacs distributions
-Put =kana= to your load-path. Here is example of ~spacemacs~
-
-#+BEGIN_SRC sh
-git clone git@github.com:chenyanming/kana.git ~/.emacs.d/private/kana
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/private/kana"))
-(require 'kana)
-#+END_SRC
 
 * Quick Start
 
