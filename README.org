@@ -74,6 +74,19 @@ or
 M-x kana-jump
 #+END_SRC
 
+Notes:
+If you found the font is very small, it is because your default fontset does not configured correctly for charsets. You have two options:
+
+1. Setup the default fontset.
+   I use the following configurations to setup charsets, and the font is ~Sarasa Mono SC font~. Note that this will set all related charsets in Emacs.
+   #+BEGIN_SRC emacs-lisp
+    (set-fontset-font (frame-parameter nil 'font) 'cjk-misc (font-spec :family "Sarasa Mono SC"))
+    (set-fontset-font (frame-parameter nil 'font) 'bopomofo (font-spec :family "Sarasa Mono SC"))
+    (set-fontset-font (frame-parameter nil 'font) 'han (font-spec :family "Sarasa Mono SC"))
+    (set-fontset-font (frame-parameter nil 'font) 'kana (font-spec :family "Sarasa Mono SC"))
+   #+END_SRC
+2. Add a new fontset, configure it with ~set-fontset-font~ and setq ~kana-fontset~ to it.
+
 * Keybindings
 #+BEGIN_SRC emacs-lisp
 (defvar kana-mode-map
