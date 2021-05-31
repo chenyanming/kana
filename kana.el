@@ -234,6 +234,7 @@
   (kana 0)
   (message "あ"))
 
+;;;###autoload
 (defun kana (&optional index)
   "Start to learn kana.
 Optional argument INDEX is the number of kana in the list."
